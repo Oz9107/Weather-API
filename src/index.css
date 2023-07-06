@@ -178,7 +178,7 @@ h2 {
   display: flex; /* Mostrar como flexbox */
   align-items: center; /* Alinear verticalmente */
   justify-content: center; /* Centrar horizontalmente */
-  height: 100vh; /* Altura del contenedor */
+  height: 26rem; /* Altura del contenedor */
 }
 
 /* Estilos para el indicador de carga */
@@ -186,7 +186,7 @@ h2 {
   display: inline-block; /* Mostrar como elemento en línea */
   position: relative; /* Posición relativa */
   width: 80px; /* Ancho */
-  height: 80px; /* Altura */
+  height: 300px; /* Altura */
 }
 
 /* Estilos para el indicador de carga después */
