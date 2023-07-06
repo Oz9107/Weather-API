@@ -101,10 +101,10 @@ h2 {
 .card img {
   position: absolute; /* Posición absoluta */
   margin: 10px; /* Márgenes */
-  width: 140px; /* Ancho de la imagen */
-  height: 140px; /* Altura de la imagen */
-  top: -30px; /* Posición superior */
-  right: -10px; /* Posición derecha */
+  width: 110px; /* Ancho de la imagen */
+  height: 110px; /* Altura de la imagen */
+  top: 5px; /* Posición superior */
+  right: 30px; /* Posición derecha */
 }
 
 /* Estilos para las tarjetas en modo oscuro */
@@ -205,13 +205,23 @@ h2 {
 
 /* Animación del indicador de carga */
 @keyframes lds-hourglass {
-   0% {
+  0% {
     transform: rotate(0); /* Rotación inicial */
-    animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19); /* Función de temporización de la animación */
+    animation-timing-function: cubic-bezier(
+      0.55,
+      0.055,
+      0.675,
+      0.19
+    ); /* Función de temporización de la animación */
   }
   50% {
     transform: rotate(900deg); /* Rotación a la mitad de la animación */
-    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1); /* Función de temporización de la animación */
+    animation-timing-function: cubic-bezier(
+      0.215,
+      0.61,
+      0.355,
+      1
+    ); /* Función de temporización de la animación */
   }
   100% {
     transform: rotate(1800deg); /* Rotación final */
