@@ -1,3 +1,4 @@
+//App.jsx
 import WeatherApp from "./components/WeatherPanel";
 
 function App() {

@@ -1,29 +1,27 @@
-import { useState, useEffect } from "react"; // Importar las funciones useState y useEffect de React
-import axios from "axios"; // Importar el módulo axios para realizar solicitudes HTTP
-import Loader from "./Loader"; // Importar el componente Loader desde un archivo local
+import { useState, useEffect } from "react";
+import axios from "axios";
+import Loader from "./Loader";
 
-const API_KEY = "fd2fd95e5cb8abc849c754b063354de1"; // Clave de la API de OpenWeatherMap
-const API_URL_WEATHER = "https://api.openweathermap.org/data/2.5/weather"; // URL base de la API de OpenWeatherMap
+const API_KEY = "fd2fd95e5cb8abc849c754b063354de1";
+const API_URL_WEATHER = "https://api.openweathermap.org/data/2.5/weather";
+const API_URL_CITY_SEARCH = "https://api.openweathermap.org/data/2.5/find";
 
 const WeatherApp = () => {
-  // Definir el componente principal WeatherApp como una función de componente
-
-  // Estados del componente
-  const [city, setCity] = useState(""); // Ciudad actual
-  const [country, setCountry] = useState(""); // País actual
-  const [weatherIcon, setWeatherIcon] = useState(""); // Icono del clima actual
-  const [temperatureCelsius, setTemperatureCelsius] = useState(null); // Temperatura actual en Celsius
-  const [temperatureUnit, setTemperatureUnit] = useState("Celsius"); // Unidad de temperatura (Celsius, Fahrenheit, Kelvin)
-  const [humidity, setHumidity] = useState(null); // Humedad actual
-  const [windSpeed, setWindSpeed] = useState(null); // Velocidad del viento actual
-  const [weatherDescription, setWeatherDescription] = useState(""); // Descripción del clima actual
-  const [selectedCity, setSelectedCity] = useState(""); // Ciudad seleccionada por el usuario
-  const [darkMode, setDarkMode] = useState(false); // Modo oscuro
-  const [isLoading, setIsLoading] = useState(true); // Indicador de carga
-  const [airPressure, setAirPressure] = useState(null); // Presión atmosférica actual
+  const [city, setCity] = useState("");
+  const [country, setCountry] = useState("");
+  const [weatherIcon, setWeatherIcon] = useState("");
+  const [temperatureCelsius, setTemperatureCelsius] = useState(null);
+  const [temperatureUnit, setTemperatureUnit] = useState("Celsius");
+  const [humidity, setHumidity] = useState(null);
+  const [windSpeed, setWindSpeed] = useState(null);
+  const [weatherDescription, setWeatherDescription] = useState("");
+  const [selectedCity, setSelectedCity] = useState("");
+  const [darkMode, setDarkMode] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [airPressure, setAirPressure] = useState(null);
+  const [suggestedCities, setSuggestedCities] = useState([]);
 
   useEffect(() => {
-    // Efecto secundario para obtener los datos del clima de forma predeterminada o por geolocalización
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
@@ -42,30 +40,18 @@ const WeatherApp = () => {
   }, []);
 
   const fetchDefaultWeather = () => {
-    // Obtener los datos del clima por defecto (ciudad predeterminada)
     const defaultCity = "Bogota";
     fetchWeatherByCity(defaultCity);
   };
 
   const fetchWeatherByCoordinates = (latitude, longitude) => {
-    // Obtener los datos del clima por coordenadas geográficas
     axios
       .get(
         `${API_URL_WEATHER}?lat=${latitude}&lon=${longitude}&appid=${API_KEY}`
       )
       .then((response) => {
         const weatherData = response.data;
-
-        setCity(weatherData.name);
-        setCountry(weatherData.sys.country);
-        setWeatherIcon(weatherData.weather[0].icon);
-        setTemperatureCelsius(weatherData.main.temp - 273.15);
-        setHumidity(weatherData.main.humidity);
-        setWindSpeed(weatherData.wind.speed);
-        setWeatherDescription(weatherData.weather[0].description);
-        setAirPressure(weatherData.main.pressure);
-
-        setIsLoading(false);
+        updateWeatherData(weatherData);
       })
       .catch((error) => {
         console.error("Error fetching weather data:", error);
@@ -73,30 +59,30 @@ const WeatherApp = () => {
   };
 
   const fetchWeatherByCity = (city) => {
-    // Obtener los datos del clima por nombre de ciudad
     axios
       .get(`${API_URL_WEATHER}?q=${city}&appid=${API_KEY}`)
       .then((response) => {
         const weatherData = response.data;
-
-        setCity(weatherData.name);
-        setCountry(weatherData.sys.country);
-        setWeatherIcon(weatherData.weather[0].icon);
-        setTemperatureCelsius(weatherData.main.temp - 273.15);
-        setHumidity(weatherData.main.humidity);
-        setWindSpeed(weatherData.wind.speed);
-        setWeatherDescription(weatherData.weather[0].description);
-        setAirPressure(weatherData.main.pressure);
-
-        setIsLoading(false);
+        updateWeatherData(weatherData);
       })
       .catch((error) => {
         console.error("Error fetching weather data:", error);
       });
   };
 
+  const updateWeatherData = (weatherData) => {
+    setCity(weatherData.name);
+    setCountry(weatherData.sys.country);
+    setWeatherIcon(weatherData.weather[0].icon);
+    setTemperatureCelsius(weatherData.main.temp - 273.15);
+    setHumidity(weatherData.main.humidity);
+    setWindSpeed(weatherData.wind.speed);
+    setWeatherDescription(weatherData.weather[0].description);
+    setAirPressure(weatherData.main.pressure);
+    setIsLoading(false);
+  };
+
   const toggleTemperatureUnit = () => {
-    // Cambiar la unidad de temperatura
     if (temperatureUnit === "Celsius") {
       setTemperatureUnit("Fahrenheit");
     } else if (temperatureUnit === "Fahrenheit") {
@@ -107,7 +93,6 @@ const WeatherApp = () => {
   };
 
   const renderTemperature = () => {
-    // Renderizar la temperatura con la unidad adecuada
     if (temperatureCelsius === null) {
       return null;
     }
@@ -124,15 +109,35 @@ const WeatherApp = () => {
   };
 
   const handleCitySubmit = (event) => {
-    // Manejar el envío del formulario
     event.preventDefault();
     if (selectedCity) {
       fetchWeatherByCity(selectedCity);
     }
   };
 
+  const handleCityChange = (event) => {
+    const query = event.target.value;
+    setSelectedCity(query);
+    fetchSuggestedCities(query);
+  };
+
+  const fetchSuggestedCities = (query) => {
+    if (query) {
+      axios
+        .get(`${API_URL_CITY_SEARCH}?q=${query}&limit=5&appid=${API_KEY}`)
+        .then((response) => {
+          const suggestedCitiesData = response.data.list;
+          setSuggestedCities(suggestedCitiesData);
+        })
+        .catch((error) => {
+          console.error("Error fetching suggested cities:", error);
+        });
+    } else {
+      setSuggestedCities([]);
+    }
+  };
+
   useEffect(() => {
-    // Efecto secundario para cambiar el modo oscuro o claro
     if (darkMode) {
       document.body.classList.add("dark-mode");
     } else {
@@ -142,7 +147,6 @@ const WeatherApp = () => {
 
   return (
     <section className={`app ${darkMode ? "dark-mode" : ""}`}>
-      {/* Botón para alternar entre el modo oscuro y claro */}
       <button
         className="dark-mode-toggle"
         onClick={() => setDarkMode(!darkMode)}
@@ -151,29 +155,35 @@ const WeatherApp = () => {
       </button>
       <div className="container">
         <h1>Weather App</h1>
-        {/* Formulario para ingresar la ciudad y obtener el clima */}
         <form onSubmit={handleCitySubmit}>
-          <input
-            type="text"
-            value={selectedCity}
-            onChange={(e) => setSelectedCity(e.target.value)}
-            placeholder="Enter city"
-          />
+          <div className="suggestions-container">
+            <input
+              type="text"
+              value={selectedCity}
+              onChange={handleCityChange}
+              placeholder="Enter city"
+            />
+            {suggestedCities.length > 0 && (
+              <ul className="suggestions-list">
+                {suggestedCities.map((city) => (
+                  <li
+                    key={city.id}
+                    className="suggestions-list-item"
+                    onClick={() => fetchWeatherByCity(city.name)}
+                  >
+                    {city.name}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
           <button type="submit">Get Weather</button>
         </form>
-        {/* Mostrar el componente Loader mientras se obtienen los datos del clima */}
         {isLoading ? (
           <Loader />
         ) : (
           <>
-            {/* Mostrar los datos del clima */}
             <article className="card">
-              {weatherIcon && (
-                <img
-                  src={`https://openweathermap.org/img/w/${weatherIcon}.png`}
-                  alt="Weather Icon"
-                />
-              )}
               <h2>
                 {city}, {country}
               </h2>
@@ -182,11 +192,16 @@ const WeatherApp = () => {
               <p>Wind Speed: {windSpeed} m/s</p>
               <p>Air Pressure: {airPressure} hPa</p>
               <p>Weather Description: {weatherDescription}</p>
+              {weatherIcon && (
+                <img
+                  src={`https://openweathermap.org/img/w/${weatherIcon}.png`}
+                  alt="Weather Icon"
+                />
+              )}
             </article>
           </>
         )}
       </div>
-      {/* Botón para alternar entre las unidades de temperatura */}
       <button className="switch" onClick={toggleTemperatureUnit}>
         Switch Unit
       </button>
