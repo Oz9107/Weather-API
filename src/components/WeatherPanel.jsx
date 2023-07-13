@@ -6,6 +6,8 @@ const API_KEY = "fd2fd95e5cb8abc849c754b063354de1";
 const API_URL_WEATHER = "https://api.openweathermap.org/data/2.5/weather";
 const API_URL_CITY_SEARCH = "https://api.openweathermap.org/data/2.5/find";
 
+// Variables de estado utilizando el hook useState
+
 const WeatherApp = () => {
   const [city, setCity] = useState("");
   const [country, setCountry] = useState("");
@@ -20,6 +22,8 @@ const WeatherApp = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [airPressure, setAirPressure] = useState(null);
   const [suggestedCities, setSuggestedCities] = useState([]);
+
+  // Obtener datos de clima basados en la geolocalización del usuario
 
   useEffect(() => {
     if (navigator.geolocation) {
@@ -39,10 +43,13 @@ const WeatherApp = () => {
     }
   }, []);
 
+  // Obtener datos de clima predeterminados para una ciudad por defecto
+
   const fetchDefaultWeather = () => {
     const defaultCity = "Bogota";
     fetchWeatherByCity(defaultCity);
   };
+  // Obtener datos de clima por coordenadas
 
   const fetchWeatherByCoordinates = (latitude, longitude) => {
     axios
@@ -58,6 +65,8 @@ const WeatherApp = () => {
       });
   };
 
+  // Obtener datos de clima por nombre de ciudad
+
   const fetchWeatherByCity = (city) => {
     axios
       .get(`${API_URL_WEATHER}?q=${city}&appid=${API_KEY}`)
@@ -69,6 +78,8 @@ const WeatherApp = () => {
         console.error("Error fetching weather data:", error);
       });
   };
+
+  // Actualizar variables de estado con los datos de clima
 
   const updateWeatherData = (weatherData) => {
     setCity(weatherData.name);
@@ -82,6 +93,8 @@ const WeatherApp = () => {
     setIsLoading(false);
   };
 
+  // Alternar unidad de temperatura entre Celsius, Fahrenheit y Kelvin
+
   const toggleTemperatureUnit = () => {
     if (temperatureUnit === "Celsius") {
       setTemperatureUnit("Fahrenheit");
@@ -91,6 +104,8 @@ const WeatherApp = () => {
       setTemperatureUnit("Celsius");
     }
   };
+
+  // Renderizar la temperatura con la unidad adecuada
 
   const renderTemperature = () => {
     if (temperatureCelsius === null) {
@@ -108,6 +123,8 @@ const WeatherApp = () => {
     return `${temperatureValue.toFixed(1)} ${temperatureUnit}`;
   };
 
+  // Manejar la presentación del formulario para obtener los datos de clima de la ciudad seleccionada
+
   const handleCitySubmit = (event) => {
     event.preventDefault();
     if (selectedCity) {
@@ -115,11 +132,15 @@ const WeatherApp = () => {
     }
   };
 
+  // Manejar el cambio de entrada de la ciudad y obtener las ciudades sugeridas
+
   const handleCityChange = (event) => {
     const query = event.target.value;
     setSelectedCity(query);
     fetchSuggestedCities(query);
   };
+
+  // Obtener ciudades sugeridas según la entrada del usuario
 
   const fetchSuggestedCities = (query) => {
     if (query) {
@@ -136,6 +157,8 @@ const WeatherApp = () => {
       setSuggestedCities([]);
     }
   };
+
+  // Aplicar la clase CSS "dark-mode" al cuerpo del documento cuando el modo oscuro está activado
 
   useEffect(() => {
     if (darkMode) {
