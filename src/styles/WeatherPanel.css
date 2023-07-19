@@ -1,7 +1,7 @@
 /* Estilos generales */
 .app {
   background-color: #76e3ef;
-  padding: 20px;
+  padding: 40px;
   font-family: "Roboto", sans-serif;
   transition: background-color 0.3s ease;
   color: #2c1d6e;
@@ -40,10 +40,12 @@ input[type="text"] {
   border: none;
   border-radius: 4px;
   margin-right: 10px;
+  margin: 40px;
 }
 button[type="submit"] {
   padding: 10px 20px;
   background-color: #007bff;
+  margin: 40px;
   color: #fff;
   border: none;
   border-radius: 4px;
@@ -107,7 +109,7 @@ h2 {
   cursor: pointer;
   font-size: 14px;
   display: block;
-  padding: 0.5rem 1rem;
+  padding: 0.8rem 1rem;
   width: 150px;
   margin: 0 auto;
   -webkit-border-radius: 5px;
@@ -118,7 +120,6 @@ h2 {
 .switch:hover {
   background-color: #0056b3;
 }
-
 .dark-mode .switch {
   background-color: #0056b3;
 }
@@ -213,7 +214,9 @@ h2 {
     width: 100%;
   }
   button[type="submit"] {
-    width: 40%;
+    width: 30%;
+    padding: 0.1%;
+    font-size: 13px;
   }
   .card {
     margin: 2rem;
