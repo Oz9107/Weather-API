@@ -162,33 +162,31 @@ const WeatherApp = () => {
     switch (weatherIcon) {
       case "01d":
       case "01n":
-        return "/public/01d.svg";
+        return "/public/Images/01d.svg";
       case "02d":
       case "02n":
-        return "/public/02d.svg";
+        return "/public/Images/02d.svg";
       case "03d":
       case "03n":
-        return "/public/03d.svg";
+        return "/public/Images/03d.svg";
       case "04d":
       case "04n":
-        return "/public/04d.svg";
+        return "/public/Images/04d.svg";
       case "09d":
       case "09n":
-        return "/public/09d.svg";
+        return "/public/Images/09d.svg";
       case "10d":
       case "10n":
-        return "/public/10d.svg";
+        return "/public/Images/10d.svg";
       case "11d":
       case "11n":
-        return "/public/11d.svg";
+        return "/public/Images/11d.svg";
       case "13d":
       case "13n":
-        return "/public/13d.svg";
+        return "/public/Images/13d.svg";
       case "50d":
       case "50n":
-        return "/public/50d.svg";
-      default:
-        return "";
+        return "/public/Images/50d.svg";
     }
   };
 

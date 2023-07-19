@@ -40,7 +40,7 @@ input[type="text"] {
   border: none;
   border-radius: 4px;
   margin-right: 10px;
-  margin: 40px;
+  margin-top: 40px;
 }
 button[type="submit"] {
   padding: 10px 20px;
@@ -172,8 +172,7 @@ h2 {
 /* Estilos para la lista de sugerencias */
 .suggestions-list {
   list-style-type: none;
-  margin: 0;
-  padding: 0;
+  padding: 10px;
   background-color: #f5ecec;
   border: 1px solid #160101;
   border-radius: 4px;
@@ -214,8 +213,7 @@ h2 {
     width: 100%;
   }
   button[type="submit"] {
-    width: 30%;
-    padding: 0.1%;
+    padding: 1%;
     font-size: 13px;
   }
   .card {
