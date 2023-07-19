@@ -166,13 +166,13 @@ const WeatherApp = () => {
         return images;
       case "02d":
       case "02n":
-        return "/public/Images/02d.png";
+        return images;
       case "03d":
       case "03n":
-        return "/public/Images/03d.png";
+        return images;
       case "04d":
       case "04n":
-        return "/public/Images/03d.png";
+        return images;
       case "09d":
       case "09n":
         return "/public/Images/09d.png";
