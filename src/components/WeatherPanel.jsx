@@ -1,3 +1,4 @@
+//WeatherPanel.jsx
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Loader from "./Loader";
@@ -5,8 +6,6 @@ import Loader from "./Loader";
 const API_KEY = "fd2fd95e5cb8abc849c754b063354de1";
 const API_URL_WEATHER = "https://api.openweathermap.org/data/2.5/weather";
 const API_URL_CITY_SEARCH = "https://api.openweathermap.org/data/2.5/find";
-
-// Variables de estado utilizando el hook useState
 
 const WeatherApp = () => {
   const [city, setCity] = useState("");
@@ -43,7 +42,7 @@ const WeatherApp = () => {
     }
   }, []);
 
-  // Obtener datos de clima predeterminados para una ciudad por defecto
+  // Obtener datos de clima predeterminados para una ciudad por defecto en caso algo falle
 
   const fetchDefaultWeather = () => {
     const defaultCity = "Bogota";
@@ -79,7 +78,7 @@ const WeatherApp = () => {
       });
   };
 
-  // Actualizar variables de estado con los datos de clima
+  // Actualizar variables de estado con los datos de clima desde la api
 
   const updateWeatherData = (weatherData) => {
     setCity(weatherData.name);
@@ -93,7 +92,7 @@ const WeatherApp = () => {
     setIsLoading(false);
   };
 
-  // Alternar unidad de temperatura entre Celsius, Fahrenheit y Kelvin
+  // Alternar unidad de temperatura entre Celsius, Fahrenheit y Kelvin o en la temperatura que quiera
 
   const toggleTemperatureUnit = () => {
     if (temperatureUnit === "Celsius") {
@@ -123,7 +122,7 @@ const WeatherApp = () => {
     return `${temperatureValue.toFixed(1)} ${temperatureUnit}`;
   };
 
-  // Manejar la presentación del formulario para obtener los datos de clima de la ciudad seleccionada
+  //este es el formulario para obtener los datos de clima de la ciudad seleccionada
 
   const handleCitySubmit = (event) => {
     event.preventDefault();
@@ -158,7 +157,39 @@ const WeatherApp = () => {
     }
   };
 
-  // Aplicar la clase CSS "dark-mode" al cuerpo del documento cuando el modo oscuro está activado
+  const getWeatherIconUrl = (weatherIcon) => {
+    switch (weatherIcon) {
+      case "01d":
+      case "01n":
+        return "/public/01d.svg";
+      case "02d":
+      case "02n":
+        return "/public/02d.svg";
+      case "03d":
+      case "03n":
+        return "/public/03d.svg";
+      case "04d":
+      case "04n":
+        return "/public/04d.svg";
+      case "09d":
+      case "09n":
+        return "/public/09d.svg";
+      case "10d":
+      case "10n":
+        return "/public/10d.svg";
+      case "11d":
+      case "11n":
+        return "/public/11d.svg";
+      case "13d":
+      case "13n":
+        return "/public/13d.svg";
+      case "50d":
+      case "50n":
+        return "/public/50d.svg";
+      default:
+        return "";
+    }
+  };
 
   useEffect(() => {
     if (darkMode) {
@@ -216,10 +247,7 @@ const WeatherApp = () => {
               <p>Air Pressure: {airPressure} hPa</p>
               <p>Weather Description: {weatherDescription}</p>
               {weatherIcon && (
-                <img
-                  src={`https://openweathermap.org/img/w/${weatherIcon}.png`}
-                  alt="Weather Icon"
-                />
+                <img src={getWeatherIconUrl(weatherIcon)} alt="Weather Icon" />
               )}
             </article>
           </>
