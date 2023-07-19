@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Loader from "./Loader";
+import "../styles/WeatherPanel.css";
 
 const API_KEY = "fd2fd95e5cb8abc849c754b063354de1";
 const API_URL_WEATHER = "https://api.openweathermap.org/data/2.5/weather";
