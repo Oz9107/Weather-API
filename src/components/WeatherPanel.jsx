@@ -1,9 +1,8 @@
-//WeatherPanel.jsx
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Loader from "./Loader";
+import WeatherIcon from "./WeatherIcon";
 import "../styles/WeatherPanel.css";
-import images from "../images/04d.png";
 
 const API_KEY = "fd2fd95e5cb8abc849c754b063354de1";
 const API_URL_WEATHER = "https://api.openweathermap.org/data/2.5/weather";
@@ -159,40 +158,6 @@ const WeatherApp = () => {
     }
   };
 
-  const getWeatherIconUrl = (weatherIcon) => {
-    switch (weatherIcon) {
-      case "01d":
-      case "01n":
-        return images;
-      case "02d":
-      case "02n":
-        return images;
-      case "03d":
-      case "03n":
-        return images;
-      case "04d":
-      case "04n":
-        return images;
-      case "09d":
-      case "09n":
-        return "/public/Images/09d.png";
-      case "10d":
-      case "10n":
-        return "/public/Images/10d.png";
-      case "11d":
-      case "11n":
-        return "/public/Images/11d.png";
-      case "13d":
-      case "13n":
-        return "/public/Images/13d.png";
-      case "50d":
-      case "50n":
-        return "/public/Images/50d.png";
-      default:
-        return `https://openweathermap.org/img/w/${weatherIcon}.png`;
-    }
-  };
-
   useEffect(() => {
     if (darkMode) {
       document.body.classList.add("dark-mode");
@@ -248,9 +213,7 @@ const WeatherApp = () => {
               <p>Wind Speed: {windSpeed} m/s</p>
               <p>Air Pressure: {airPressure} hPa</p>
               <p>Weather Description: {weatherDescription}</p>
-              {weatherIcon && (
-                <img src={getWeatherIconUrl(weatherIcon)} alt="Weather Icon" />
-              )}
+              {weatherIcon && <WeatherIcon iconCode={weatherIcon} />}
             </article>
           </>
         )}
