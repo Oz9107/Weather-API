@@ -187,12 +187,10 @@ const WeatherApp = () => {
       case "50d":
       case "50n":
         return "/public/Images/50d.svg";
-    default:{
-      `https://openweathermap.org/img/w/${weatherIcon}.png`;
+      default:
+        return `https://openweathermap.org/img/w/${weatherIcon}.png`;
     }
-      return ""
-  }
-};
+  };
 
   useEffect(() => {
     if (darkMode) {
