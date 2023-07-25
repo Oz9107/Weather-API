@@ -1,6 +1,5 @@
 /* Estilos generales */
 .app {
-  background-color: #76e3ef;
   padding: 40px;
   font-family: "Roboto", sans-serif;
   transition: background-color 0.3s ease;
@@ -243,7 +242,7 @@ h2 {
     margin: 10px;
   }
   .container {
-    margin: 65px 10px;
+    margin: 25px 10px;
   }
   input[type="text"] {
     width: 100%;
